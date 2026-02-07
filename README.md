@@ -20,10 +20,12 @@ This repository accompanies the SIGIR 2026 paper **“AmharicIR: A Unified Resou
 **Models used in current notebooks (examples)**
 - [rasyosef/RoBERTa-Amharic-Embed-Base](https://huggingface.co/rasyosef/RoBERTa-Amharic-Embed-Base)
 - [rasyosef/RoBERTa-Amharic-Embed-Medium](https://huggingface.co/rasyosef/RoBERTa-Amharic-Embed-Medium)
-- [rasyosef/colbert-roberta-amharic-base](https://huggingface.co/rasyosef/colbert-roberta-amharic-base)
+- [rasyosef/ColBERT-Amharic-Base](https://huggingface.co/rasyosef/ColBERT-Amharic-Base)
+- [rasyosef/ColBERT-Amharic-Medium](https://huggingface.co/rasyosef/ColBERT-Amharic-Medium)
 - [rasyosef/SPLADE-RoBERTa-Amharic-Base](https://huggingface.co/rasyosef/SPLADE-RoBERTa-Amharic-Base)
 - [rasyosef/SPLADE-RoBERTa-Amharic-Medium](https://huggingface.co/rasyosef/SPLADE-RoBERTa-Amharic-Medium)
 - [rasyosef/RoBERTa-Amharic-Reranker-Base](https://huggingface.co/rasyosef/RoBERTa-Amharic-Reranker-Base)
+- [rasyosef/RoBERTa-Amharic-Reranker-Medium](https://huggingface.co/rasyosef/RoBERTa-Amharic-Reranker-Medium)
 
 ## Setup
 
