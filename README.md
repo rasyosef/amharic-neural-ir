@@ -155,18 +155,10 @@ Cross-encoder reranker:
 - A few evaluation paths are notebook-interactive and rely on per-cell execution order; rerunning from top to bottom is recommended.
 
 ### Runtime and hardware notes
-- Notebook metadata indicates GPU-backed runs (`A100` and `T4` appear in metadata).
+- Experiments in this repository were run in GPU-backed environments, ( A100 and T4 GPUs).
 - Some code paths explicitly set `device="cuda"` or `device="cuda" if torch.cuda.is_available() else "cpu"`.
 - A recorded run in `evaluation/evaluate-amharic-colbert-passage-retrieval.ipynb` shows a corpus chunk stage of about `14:52`.
 - Runtime depends on hardware, model choice, and batch size.
-
-### Where outputs land
-- Training notebooks write local outputs such as:
-  - `models/{run_name}`
-  - `roberta-base-amharic-embedding-matryoshka`
-  - `roberta-medium-amharic-embedding-matryoshka`
-- Several notebooks also include `push_to_hub(...)` steps.
-- Output folders are currently notebook-defined and not yet centralized into a single directory convention.
 
 ### Known nondeterminism / caveats
 - GPU execution, FAISS-based retrieval, and notebook-interactive execution can introduce run-to-run variation.
