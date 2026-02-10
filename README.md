@@ -1,4 +1,5 @@
 
+
 # AmharicIR: A Unified Resource for Amharic Neural Retrieval
 
 [![SIGIR 2026](https://img.shields.io/badge/SIGIR-2026-blue)](#)
@@ -6,12 +7,12 @@
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow)](https://huggingface.co/collections/rasyosef/amharic-neural-ir-models)
 [![License](https://img.shields.io/badge/license-LICENSE-lightgrey)](LICENSE)
 
-This repository accompanies the SIGIR 2026 paper **“AmharicIR: A Unified Resource for Amharic Neural Retrieval Models and Benchmarks.”** It provides evaluation notebooks today and is organized to grow into a fully reproducible pipeline for training, indexing, retrieval, reranking, and benchmarking across multiple neural IR families in Amharic.
+This repository accompanies the SIGIR 2026 paper **“AmharicIR: A Unified Resource for Amharic Neural Retrieval Models and Benchmarks.”** It provides notebook-based training and evaluation workflows for dense retrieval, late interaction (ColBERT-style), sparse retrieval (SPLADE-style), and cross-encoder reranking in Amharic.
 
-**Core artifacts from the paper**
+**Core artifacts**
 - **Benchmark**: Amharic Passage Retrieval Dataset V2 with a fixed 90/10 train–test split (68,000 query–passage pairs).
 - **Model suite**: Amharic-specific checkpoints spanning dense bi-encoders, late-interaction (ColBERT-style), learned sparse retrievers (SPLADE-style), and cross-encoder rerankers.
-- **Reproducible pipelines**: standardized preprocessing, indexing, retrieval, reranking, and evaluation settings with pinned configs and metadata logging.
+- **Workflows**: notebook implementations for preprocessing, training, and evaluation.
 
 **Hugging Face resources**
 - Dataset: [rasyosef/Amharic-Passage-Retrieval-Dataset-V2](https://huggingface.co/datasets/rasyosef/Amharic-Passage-Retrieval-Dataset-V2)
@@ -27,117 +28,207 @@ This repository accompanies the SIGIR 2026 paper **“AmharicIR: A Unified Resou
 - [rasyosef/RoBERTa-Amharic-Reranker-Base](https://huggingface.co/rasyosef/RoBERTa-Amharic-Reranker-Base)
 - [rasyosef/RoBERTa-Amharic-Reranker-Medium](https://huggingface.co/rasyosef/RoBERTa-Amharic-Reranker-Medium)
 
-## Setup
 
-**Environment**
+## Notebook-first workflow
+
+This codebase is organized primarily as Jupyter notebooks (rather than standalone `.py` scripts). The goal is to keep the full pipeline easy to follow and modify step-by-step, especially for practitioners. Because the dataset used in these workflows is relatively small, we keep the main experiments and analysis in notebook format for clarity and quick iteration.
+
+
+**Practical notes**
+
+* Run notebooks **from the repository root** so relative paths resolve correctly.
+* Each notebook is intended to be runnable end-to-end, in the order described below.
+* If you prefer scripts, you can export notebooks with:
+  * `jupyter nbconvert --to script <notebook-path>.ipynb`
+
+## Quickstart
+
+### Recommended (Conda, GPU-friendly)
+
+Create a conda environment from `amharicir-environment.yml`:
+
 ```bash
-conda activate pag-env
+conda env create -f amharicir-environment.yml
+conda activate amharicir
+jupyter lab
 ```
 
-**Install dependencies**
-The evaluation notebooks use the following packages (exact versions will be pinned in a future `environment.yml` or `requirements.txt`):
+Then open one of:
+
+* `evaluation/evaluate-amharic-embedding-passage-retrieval.ipynb`
+* `evaluation/evaluate-amharic-colbert-passage-retrieval.ipynb`
+* `evaluation/evaluate-amharic-splade-passage-retrieval.ipynb`
+* `evaluation/evaluate-amharic-rerankers-passage-retrieval.ipynb`
+
+### Optional (venv + requirements.txt, pip-only)
+
 ```bash
-pip install -U sentence-transformers datasets transformers
-pip install -U faiss-cpu  # or faiss-gpu if available
-pip install -U pylate beir ranx
-pip install -U torch
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pip install jupyter
+jupyter lab
 ```
 
-Optional: `wandb` is used in the notebooks but is run in disabled mode by default.
+Then open one of:
 
-## Repository Structure
+* `evaluation/evaluate-amharic-embedding-passage-retrieval.ipynb`
+* `evaluation/evaluate-amharic-colbert-passage-retrieval.ipynb`
+* `evaluation/evaluate-amharic-splade-passage-retrieval.ipynb`
+* `evaluation/evaluate-amharic-rerankers-passage-retrieval.ipynb`
 
-Current
-- `evaluation/` notebook-based evaluation for each model family.
-- `Amharic_Retrieval_II__SIGIR2026.pdf` paper.
-- `LICENSE` MIT license.
+## Installation
 
-Planned (roadmap; scripts to be added)
-- `configs/` pinned configs for preprocessing, indexing, retrieval, reranking, and evaluation.
-- `data/` standardized dataset layout and cached artifacts.
-- `models/` local checkpoints and adapters for reproducible training.
-- `scripts/` CLI entry points for end-to-end workflows.
-- `indexes/` built search indexes (FAISS, HNSW, inverted indices).
-- `runs/` experiment outputs, metrics, and metadata.
-- `outputs/` ranked runs and evaluation reports.
+Canonical environment path for this repo:
+- `conda` with `amharicir-environment.yml` (Python 3.10)
 
-## Path Conventions and Expected Outputs
+```bash
+conda env create -f amharicir-environment.yml
+conda activate amharicir
+```
 
-This project will standardize paths to make runs fully reproducible and auditable. The following conventions reflect the planned pipeline and are used in the README so future scripts and notebooks remain consistent.
+For pip-only workflows, use `requirements.txt` with a virtual environment.
 
-- `data/raw/` raw dataset downloads.
-- `data/processed/` normalized and deduplicated corpus, queries, and qrels.
-- `configs/*.yaml` immutable config snapshots for each experiment.
-- `indexes/{model_family}/{model_name}/` index artifacts for retrieval.
-- `runs/{date}/{experiment_name}/` metrics, logs, and metadata.
-- `outputs/{experiment_name}/` ranked results and evaluation summaries.
+Python version:
+- The environment file pins Python to `3.10`.
+- Notebook metadata in this repo includes multiple runtime versions (`3.10.12`, `3.11`, `3.12.12`), so exact results may vary across runtimes.
+- Dependencies are pinned in both `amharicir-environment.yml` and `requirements.txt`.
 
-## Evaluation Workflows (Current)
+## Usage
 
-All evaluations are based on the Amharic Passage Retrieval Dataset V2 and follow the paper’s protocol: retrieve **top-100** candidates per query for first-stage models and report **MRR@10** and **NDCG@10**. Cross-encoders rerank the top-100 candidates and are evaluated at cutoff 10.
+### 1) Evaluate pretrained retrieval models
 
-### 1) Dense Bi-Encoder Evaluation
-Notebook: `evaluation/evaluate-amharic-embedding-passage-retrieval.ipynb`
+Dense embedding retrieval:
+```bash
+jupyter lab evaluation/evaluate-amharic-embedding-passage-retrieval.ipynb
+```
 
-What it does
-- Loads dataset from Hugging Face.
-- Builds a corpus of passages and evaluates a Sentence-Transformers encoder.
-- Runs IR metrics via `InformationRetrievalEvaluator`.
+ColBERT-style retrieval:
+```bash
+jupyter lab evaluation/evaluate-amharic-colbert-passage-retrieval.ipynb
+```
 
-### 2) Late-Interaction (ColBERT-Style) Evaluation
-Notebook: `evaluation/evaluate-amharic-colbert-passage-retrieval.ipynb`
+SPLADE-style retrieval:
+```bash
+jupyter lab evaluation/evaluate-amharic-splade-passage-retrieval.ipynb
+```
 
-What it does
-- Uses PyLate and a Voyager HNSW index.
-- Evaluates ColBERT-style models with multi-vector representations.
+Two-stage retrieval + reranking:
+```bash
+jupyter lab evaluation/evaluate-amharic-rerankers-passage-retrieval.ipynb
+```
 
-### 3) Learned Sparse (SPLADE-Style) Evaluation
-Notebook: `evaluation/evaluate-amharic-splade-passage-retrieval.ipynb`
+### 2) Preprocess / hard-negative mining
 
-What it does
-- Uses Sentence-Transformers `SparseEncoder` for SPLADE-style retrieval.
-- Evaluates inverted-index sparse vectors and metrics with `SparseInformationRetrievalEvaluator`.
+```bash
+jupyter lab preprocessing/hard-negatives-mining-amharic-retrieval-dataset.ipynb
+```
 
-### 4) Two-Stage Reranking
-Notebook: `evaluation/evaluate-amharic-rerankers-passage-retrieval.ipynb`
+### 3) Train models
 
-What it does
-- Builds a first-stage FAISS index over dense embeddings.
-- Reranks top-100 candidates with a Cross-Encoder.
-- Evaluates MRR@10 and NDCG@10 for reranked results.
+Embeddings:
+- `training/embeddings-amharic/train-roberta-amharic-embed-base.ipynb`
+- `training/embeddings-amharic/train-roberta-amharic-embed-medium.ipynb`
 
-## Reproducibility and Observability
+ColBERT:
+- `training/colbert-amharic/train-colbert-amharic-base.ipynb`
+- `training/colbert-amharic/train-colbert-amharic-medium.ipynb`
 
-The paper emphasizes stable evaluation through pinned configs and logged metadata. The repository will enforce these practices in upcoming scripts:
-- Fixed random seed (`42`) and deterministic settings where possible.
-- Logged metadata per run: software versions, commit hash, config file, retrieval depth, and indexing parameters.
-- Immutable config snapshots stored under `configs/` and `runs/`.
-- Versioned dataset and checkpoint releases via Hugging Face.
+SPLADE:
+- `training/splade-amharic/train-splade-roberta-amharic-base.ipynb`
+- `training/splade-amharic/train-splade-roberta-amharic-medium.ipynb`
 
-## Roadmap: How Components Interact
+Cross-encoder reranker:
+- `training/crossencoder-amharic/train-roberta-amharic-reranker-base.ipynb`
+- `training/crossencoder-amharic/train-roberta-amharic-reranker-medium.ipynb`
 
-The planned pipeline is organized as a sequence of modular, reusable steps. Each step will have a dedicated CLI script and a config file, so new experiments are composable and fully traceable.
+## Reproducibility
 
-1. **Preprocessing** — Input: Hugging Face dataset. Output: `data/processed/` (normalized corpus, queries, qrels).
-2. **Training** — Input: processed dataset. Output: `models/` checkpoints and `runs/` metrics. Notes: training recipes follow the paper’s hyperparameters by model family.
-3. **Indexing** — Input: model checkpoint + processed corpus. Output: `indexes/` (FAISS, HNSW/Voyager, or inverted index).
-4. **First-Stage Retrieval** — Input: index + queries. Output: `outputs/` ranked runs and `runs/` metrics.
-5. **Reranking** — Input: top-100 candidates + cross-encoder. Output: `outputs/` reranked runs and `runs/` metrics.
-6. **Evaluation** — Input: ranked runs + qrels. Output: `outputs/` reports (MRR@10, NDCG@10, Recall@k).
+### Data contract (as used in notebooks)
+- Evaluation notebooks load: `rasyosef/Amharic-Passage-Retrieval-Dataset-V2`
+- Training/preprocessing notebooks load: `yosefw/amharic-news-retrieval-dataset-v2-with-negatives-V2` or `rasyosef/amharic-passage-retrieval-dataset-v2`
+- Common ID fields in workflows: `query_id`, `passage_id`
 
-## Extending the Repository
+### Seeds
+- Multiple training notebooks use `seed=42` (for example in dataset shuffling and training arguments).
+- A few evaluation paths are notebook-interactive and rely on per-cell execution order; rerunning from top to bottom is recommended.
 
-Planned scripts will make extensions straightforward and consistent:
-- `scripts/preprocess.py` will normalize and deduplicate the dataset with fixed rules.
-- `scripts/train_dense.py`, `scripts/train_colbert.py`, `scripts/train_splade.py`, `scripts/train_reranker.py` will mirror the paper’s training schedules and tokenization choices.
-- `scripts/build_index.py` will build FAISS, Voyager HNSW, or inverted indexes.
-- `scripts/retrieve.py` and `scripts/rerank.py` will produce standardized runs and metadata.
-- `scripts/evaluate.py` will compute metrics and export reports.
+### Runtime and hardware notes
+- Experiments in this repository were run in GPU-backed environments, ( A100 and T4 GPUs).
+- Some code paths explicitly set `device="cuda"` or `device="cuda" if torch.cuda.is_available() else "cpu"`.
+- A recorded run in `evaluation/evaluate-amharic-colbert-passage-retrieval.ipynb` shows a corpus chunk stage of about `14:52`.
+- Runtime depends on hardware, model choice, and batch size.
 
-## Citation
+### Known nondeterminism / caveats
+- GPU execution, FAISS-based retrieval, and notebook-interactive execution can introduce run-to-run variation.
+- Results can vary slightly across hardware and drivers even with fixed seeds and pinned software.
 
-If you use this repository or the released benchmarks, please cite the SIGIR’26 paper.
+## Project Structure
+
+```text
+.
+├── evaluation/
+│   ├── evaluate-amharic-colbert-passage-retrieval.ipynb
+│   ├── evaluate-amharic-embedding-passage-retrieval.ipynb
+│   ├── evaluate-amharic-rerankers-passage-retrieval.ipynb
+│   └── evaluate-amharic-splade-passage-retrieval.ipynb
+├── preprocessing/
+│   └── hard-negatives-mining-amharic-retrieval-dataset.ipynb
+├── training/
+│   ├── colbert-amharic/
+│   │   ├── train-colbert-amharic-base.ipynb
+│   │   └── train-colbert-amharic-medium.ipynb
+│   ├── crossencoder-amharic/
+│   │   ├── train-roberta-amharic-reranker-base.ipynb
+│   │   └── train-roberta-amharic-reranker-medium.ipynb
+│   ├── embeddings-amharic/
+│   │   ├── train-roberta-amharic-embed-base.ipynb
+│   │   └── train-roberta-amharic-embed-medium.ipynb
+│   └── splade-amharic/
+│       ├── train-splade-roberta-amharic-base.ipynb
+│       └── train-splade-roberta-amharic-medium.ipynb
+├── LICENSE
+├── CITATION.cff
+├── README.md
+├── amharicir-environment.yml
+└── requirements.txt
+```
 
 ## License
 
-MIT License. See `LICENSE`.
+This project is released under the MIT License. See `LICENSE`.
+
+## Citation
+
+GitHub citation metadata is available in `CITATION.cff`.
+
+If you use this repository, please cite:
+
+```bibtex
+@misc{alemneh2026amharicir,
+  title        = {AmharicIR: A Unified Resource for Amharic Neural Retrieval Models and Benchmarks},
+  author       = {Alemneh, Yosef Worku and Mekonnen, Kidist Amde and de Rijke, Maarten},
+  year         = {2026},
+  note         = {Manuscript under review},
+  howpublished = {GitHub repository},
+}
+```
+
+## Troubleshooting / FAQ
+
+Q: `ModuleNotFoundError` when opening notebooks.  
+A: Activate the virtual environment and reinstall dependencies:
+```bash
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Q: Notebook tries to run on CUDA but no GPU is available.  
+A: Use notebooks/cells that already support fallback (`torch.cuda.is_available()`), or set model/device cells to CPU explicitly where needed.
+
+Q: Results differ from previous runs.  
+A: Check seed usage (`seed=42` appears in several training notebooks), hardware differences (A100/T4/CPU), and CUDA/driver differences.
+
+Q: Where are CLI scripts/config files for end-to-end pipeline runs?  
+A: They are not present in the current repository layout.

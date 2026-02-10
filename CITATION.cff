@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite this work."
+title: "AmharicIR: A Unified Resource for Amharic Neural Retrieval Models and Benchmarks"
+type: "conference-paper"
+authors:
+  - family-names: "Alemneh"
+    given-names: "Yosef Worku"
+  - family-names: "Mekonnen"
+    given-names: "Kidist Amde"
+  - family-names: "de Rijke"
+    given-names: "Maarten"
+year: 2026
+repository-code: "https://github.com/rasyosef/amharic-neural-ir"
+license: "MIT"

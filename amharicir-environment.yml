@@ -1,0 +1,26 @@
+name: amharicir
+channels:
+  - conda-forge
+  - pytorch
+  - nvidia
+dependencies:
+  - python=3.10
+  - pip
+  - jupyterlab=4.3
+  - ipykernel=6.29
+  - numpy=1.26
+  - tqdm=4.67
+  - pytorch=2.5
+  - torchvision=0.20
+  - pytorch-cuda=12.1
+  - tensorboard=2.18
+  - pip:
+      - sentence-transformers==3.3.1
+      - datasets==3.2.0
+      - transformers==4.48.1
+      - faiss-gpu-cu12==1.11.0
+      - pylate==1.2.0
+      - beir==2.0.0
+      - ranx==0.3.20
+      - wandb==0.19.5
+      - fsspec==2024.10.0
