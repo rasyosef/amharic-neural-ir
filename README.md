@@ -2,9 +2,10 @@
 
 # The Multilingual Curse at the Retrieval Layer: Evidence from Amharic
 
-[![ACL 2026](https://img.shields.io/badge/ACL-2026-blue)](#)
+[![ACL 2026](https://img.shields.io/badge/ACL-2026-blue)](https://2026.aclweb.org/)
 [![MeLLM Workshop](https://img.shields.io/badge/Workshop-MeLLM-informational)](https://mellm.org/)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow)](https://huggingface.co/collections/rasyosef/amharic-neural-ir-models)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow)](https://huggingface.co/collections/kiyam/amharic-fine-tuned-multilingual-retrievers)
 [![License](https://img.shields.io/badge/license-LICENSE-lightgrey)](LICENSE)
 
 This repository accompanies the ACL 2026 MeLLM Workshop paper **”The Multilingual Curse at the Retrieval Layer: Evidence from Amharic.”** It provides notebook-based training and evaluation workflows for dense retrieval, late interaction (ColBERT-style), sparse retrieval (SPLADE-style), and cross-encoder reranking in Amharic.
@@ -19,7 +20,7 @@ This repository accompanies the ACL 2026 MeLLM Workshop paper **”The Multiling
 - Monolingual Amharic models: [rasyosef/amharic-neural-ir-models](https://huggingface.co/collections/rasyosef/amharic-neural-ir-models)
 - Fine-tuned multilingual models (this paper): [kiyam/amharic-fine-tuned-multilingual-retrievers](https://huggingface.co/collections/kiyam/amharic-fine-tuned-multilingual-retrievers)
 
-**Monolingual Amharic models (from prior work)**
+**Monolingual Amharic models**
 - [rasyosef/RoBERTa-Amharic-Embed-Base](https://huggingface.co/rasyosef/RoBERTa-Amharic-Embed-Base)
 - [rasyosef/RoBERTa-Amharic-Embed-Medium](https://huggingface.co/rasyosef/RoBERTa-Amharic-Embed-Medium)
 - [rasyosef/ColBERT-Amharic-Base](https://huggingface.co/rasyosef/ColBERT-Amharic-Base)
@@ -29,7 +30,7 @@ This repository accompanies the ACL 2026 MeLLM Workshop paper **”The Multiling
 - [rasyosef/RoBERTa-Amharic-Reranker-Base](https://huggingface.co/rasyosef/RoBERTa-Amharic-Reranker-Base)
 - [rasyosef/RoBERTa-Amharic-Reranker-Medium](https://huggingface.co/rasyosef/RoBERTa-Amharic-Reranker-Medium)
 
-**Amharic-fine-tuned multilingual models (this paper)**
+**Amharic-fine-tuned multilingual models**
 - [kiyam/EmbeddingGemma-300M-Amharic](https://huggingface.co/kiyam/EmbeddingGemma-300M-Amharic) — MRR@10: 0.718, NDCG@10: 0.753
 - [kiyam/Harrier-270M-Amharic](https://huggingface.co/kiyam/Harrier-270M-Amharic) — MRR@10: 0.760, NDCG@10: 0.795
 
