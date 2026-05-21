@@ -1,13 +1,13 @@
 
 
-# AmharicIR: A Unified Resource for Amharic Neural Retrieval
+# The Multilingual Curse at the Retrieval Layer: Evidence from Amharic
 
-[![SIGIR 2026](https://img.shields.io/badge/SIGIR-2026-blue)](#)
-[![Submission](https://img.shields.io/badge/submission-83-informational)](#)
+[![ACL 2026](https://img.shields.io/badge/ACL-2026-blue)](#)
+[![MeLLM Workshop](https://img.shields.io/badge/Workshop-MeLLM-informational)](https://mellm.org/)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow)](https://huggingface.co/collections/rasyosef/amharic-neural-ir-models)
 [![License](https://img.shields.io/badge/license-LICENSE-lightgrey)](LICENSE)
 
-This repository accompanies the SIGIR 2026 paper **“AmharicIR: A Unified Resource for Amharic Neural Retrieval Models and Benchmarks.”** It provides notebook-based training and evaluation workflows for dense retrieval, late interaction (ColBERT-style), sparse retrieval (SPLADE-style), and cross-encoder reranking in Amharic.
+This repository accompanies the ACL 2026 MeLLM Workshop paper **”The Multilingual Curse at the Retrieval Layer: Evidence from Amharic.”** It provides notebook-based training and evaluation workflows for dense retrieval, late interaction (ColBERT-style), sparse retrieval (SPLADE-style), and cross-encoder reranking in Amharic.
 
 **Core artifacts**
 - **Benchmark**: Amharic Passage Retrieval Dataset V2 with a fixed 90/10 train–test split (68,000 query–passage pairs).
@@ -16,9 +16,10 @@ This repository accompanies the SIGIR 2026 paper **“AmharicIR: A Unified Resou
 
 **Hugging Face resources**
 - Dataset: [rasyosef/Amharic-Passage-Retrieval-Dataset-V2](https://huggingface.co/datasets/rasyosef/Amharic-Passage-Retrieval-Dataset-V2)
-- Model collection: [rasyosef/amharic-neural-ir-models](https://huggingface.co/collections/rasyosef/amharic-neural-ir-models)
+- Monolingual Amharic models: [rasyosef/amharic-neural-ir-models](https://huggingface.co/collections/rasyosef/amharic-neural-ir-models)
+- Fine-tuned multilingual models (this paper): [kiyam/amharic-fine-tuned-multilingual-retrievers](https://huggingface.co/collections/kiyam/amharic-fine-tuned-multilingual-retrievers)
 
-**Models used in current notebooks (examples)**
+**Monolingual Amharic models (from prior work)**
 - [rasyosef/RoBERTa-Amharic-Embed-Base](https://huggingface.co/rasyosef/RoBERTa-Amharic-Embed-Base)
 - [rasyosef/RoBERTa-Amharic-Embed-Medium](https://huggingface.co/rasyosef/RoBERTa-Amharic-Embed-Medium)
 - [rasyosef/ColBERT-Amharic-Base](https://huggingface.co/rasyosef/ColBERT-Amharic-Base)
@@ -27,6 +28,10 @@ This repository accompanies the SIGIR 2026 paper **“AmharicIR: A Unified Resou
 - [rasyosef/SPLADE-RoBERTa-Amharic-Medium](https://huggingface.co/rasyosef/SPLADE-RoBERTa-Amharic-Medium)
 - [rasyosef/RoBERTa-Amharic-Reranker-Base](https://huggingface.co/rasyosef/RoBERTa-Amharic-Reranker-Base)
 - [rasyosef/RoBERTa-Amharic-Reranker-Medium](https://huggingface.co/rasyosef/RoBERTa-Amharic-Reranker-Medium)
+
+**Amharic-fine-tuned multilingual models (this paper)**
+- [kiyam/EmbeddingGemma-300M-Amharic](https://huggingface.co/kiyam/EmbeddingGemma-300M-Amharic) — MRR@10: 0.718, NDCG@10: 0.753
+- [kiyam/Harrier-270M-Amharic](https://huggingface.co/kiyam/Harrier-270M-Amharic) — MRR@10: 0.760, NDCG@10: 0.795
 
 
 ## Notebook-first workflow
@@ -143,6 +148,19 @@ Cross-encoder reranker:
 - `training/crossencoder-amharic/train-roberta-amharic-reranker-base.ipynb`
 - `training/crossencoder-amharic/train-roberta-amharic-reranker-medium.ipynb`
 
+### 4) HPC / SLURM scripts
+
+For running fine-tuning or evaluation on a GPU cluster via SLURM, see [`scripts/`](scripts/). Each script has a short configuration block at the top — set `REPO_DIR`, `CONDA_ENV`, and (for training) `WANDB_ENTITY` before submitting:
+
+```bash
+sbatch scripts/run_finetune_embeddinggemma.sbatch
+sbatch scripts/run_finetune_harrier.sbatch
+sbatch scripts/run_evaluate_gemma.sbatch
+sbatch scripts/run_evaluate_harrier.sbatch
+```
+
+Logs are written to `logs-slurm/`.
+
 ## Reproducibility
 
 ### Data contract (as used in notebooks)
@@ -188,6 +206,15 @@ Cross-encoder reranker:
 │   └── splade-amharic/
 │       ├── train-splade-roberta-amharic-base.ipynb
 │       └── train-splade-roberta-amharic-medium.ipynb
+├── scripts/
+│   ├── README.md                              # HPC setup instructions
+│   ├── run_finetune_embeddinggemma.sbatch
+│   ├── run_finetune_harrier.sbatch
+│   ├── run_evaluate_gemma.sbatch
+│   └── run_evaluate_harrier.sbatch
+├── evaluate_ir.py                             # CLI evaluation script
+├── finetune_embeddinggemma_amharic.py         # CLI fine-tuning script (EmbeddingGemma)
+├── finetune_harrier_amharic.py                # CLI fine-tuning script (Harrier)
 ├── LICENSE
 ├── CITATION.cff
 ├── README.md
@@ -206,12 +233,11 @@ GitHub citation metadata is available in `CITATION.cff`.
 If you use this repository, please cite:
 
 ```bibtex
-@misc{alemneh2026amharicir,
-  title        = {AmharicIR: A Unified Resource for Amharic Neural Retrieval Models and Benchmarks},
-  author       = {Alemneh, Yosef Worku and Mekonnen, Kidist Amde and de Rijke, Maarten},
-  year         = {2026},
-  note         = {Manuscript under review},
-  howpublished = {GitHub repository},
+@inproceedings{alemneh2026amharicir,
+  title     = {The Multilingual Curse at the Retrieval Layer: Evidence from Amharic},
+  author    = {Alemneh, Yosef Worku and Mekonnen, Kidist Amde Mekand de Rijke, Maarten},
+  booktitle = {Proceedings of the 1st Workshop on Multilinguality in the Era of Large Language Models (MeLLM), ACL 2026},
+  year      = {2026},
 }
 ```
 
@@ -230,5 +256,5 @@ A: Use notebooks/cells that already support fallback (`torch.cuda.is_available()
 Q: Results differ from previous runs.  
 A: Check seed usage (`seed=42` appears in several training notebooks), hardware differences (A100/T4/CPU), and CUDA/driver differences.
 
-Q: Where are CLI scripts/config files for end-to-end pipeline runs?  
-A: They are not present in the current repository layout.
+Q: Where are CLI scripts for end-to-end pipeline runs?  
+A: See `evaluate_ir.py` (evaluation), `finetune_embeddinggemma_amharic.py`, and `finetune_harrier_amharic.py` (fine-tuning). SLURM job scripts that wrap these are in `scripts/`.

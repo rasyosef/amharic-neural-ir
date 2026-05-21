@@ -25,7 +25,14 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+logs-slurm/
+.codex
+The_Multilingual_Curse_at_the_Retrieval_Layer.pdf
 
+# Local fine-tuned model checkpoints (upload to Hugging Face Hub instead)
+embeddinggemma-300m-am-finetuned/
+embeddinggemma-300m-am-finetuned-bf16fix/
+harrier-270m-am-finetuned/
 # archive files
 
 data/
