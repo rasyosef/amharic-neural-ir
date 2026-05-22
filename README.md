@@ -21,18 +21,55 @@ This repository accompanies the ACL 2026 MeLLM Workshop paper **”The Multiling
 - Fine-tuned multilingual models: [kiyam/amharic-fine-tuned-multilingual-retrievers](https://huggingface.co/collections/kiyam/amharic-fine-tuned-multilingual-retrievers)
 
 **Monolingual Amharic models**
-- [rasyosef/RoBERTa-Amharic-Embed-Base](https://huggingface.co/rasyosef/RoBERTa-Amharic-Embed-Base)
-- [rasyosef/RoBERTa-Amharic-Embed-Medium](https://huggingface.co/rasyosef/RoBERTa-Amharic-Embed-Medium)
-- [rasyosef/ColBERT-Amharic-Base](https://huggingface.co/rasyosef/ColBERT-Amharic-Base)
-- [rasyosef/ColBERT-Amharic-Medium](https://huggingface.co/rasyosef/ColBERT-Amharic-Medium)
-- [rasyosef/SPLADE-RoBERTa-Amharic-Base](https://huggingface.co/rasyosef/SPLADE-RoBERTa-Amharic-Base)
-- [rasyosef/SPLADE-RoBERTa-Amharic-Medium](https://huggingface.co/rasyosef/SPLADE-RoBERTa-Amharic-Medium)
-- [rasyosef/RoBERTa-Amharic-Reranker-Base](https://huggingface.co/rasyosef/RoBERTa-Amharic-Reranker-Base)
-- [rasyosef/RoBERTa-Amharic-Reranker-Medium](https://huggingface.co/rasyosef/RoBERTa-Amharic-Reranker-Medium)
+- [rasyosef/embedding-amharic-base](https://huggingface.co/rasyosef/embedding-amharic-base)
+- [rasyosef/embedding-amharic-medium](https://huggingface.co/rasyosef/embedding-amharic-medium)
+- [rasyosef/colbert-amharic-base](https://huggingface.co/rasyosef/colbert-amharic-base)  
+- [rasyosef/colbert-amharic-medium](https://huggingface.co/rasyosef/colbert-amharic-medium)  
+- [rasyosef/splade-amharic-base](https://huggingface.co/rasyosef/splade-amharic-base)
+- [rasyosef/splade-amharic-medium](https://huggingface.co/rasyosef/splade-amharic-medium)
+- [rasyosef/reranker-amharic-base](https://huggingface.co/rasyosef/reranker-amharic-base)
+- [rasyosef/reranker-amharic-medium](https://huggingface.co/rasyosef/reranker-amharic-medium)
 
 **Amharic-fine-tuned multilingual models**
 - [kiyam/EmbeddingGemma-300M-Amharic](https://huggingface.co/kiyam/EmbeddingGemma-300M-Amharic) — MRR@10: 0.718, NDCG@10: 0.753
 - [kiyam/Harrier-270M-Amharic](https://huggingface.co/kiyam/Harrier-270M-Amharic) — MRR@10: 0.760, NDCG@10: 0.795
+
+### Retriever Models Eval results
+First-stage retrieval results on the Amharic Passage Retrieval Dataset V2.
+
+| Model                                                    | Params (M) |          R@5 |         R@10 |       MRR@10 |      NDCG@10 |
+| -------------------------------------------------------- | ---------: | -----------: | -----------: | -----------: | -----------: |
+| ***Monolingual Amharic retrievers introduced in this work***|            |              |              |              |              |
+| [`splade-amharic-medium`](https://huggingface.co/rasyosef/splade-amharic-medium)                                    |         42 |        0.858 |        0.896 |        0.728 |        0.769 |
+| [`splade-amharic-base`](https://huggingface.co/rasyosef/splade-amharic-base)                                      |        110 |        0.871 |        0.906 |        0.754 |        0.792 |
+| [`embedding-amharic-medium`](https://huggingface.co/rasyosef/embedding-amharic-medium)                                     |         42 |        0.843 |        0.888 |        0.744 |        0.779 |
+| [`embedding-amharic-base`](https://huggingface.co/rasyosef/embedding-amharic-base)                                       |        110 |        0.870 |        0.907 |        0.774 |        0.807 |
+| [`colbert-amharic-medium`](https://huggingface.co/rasyosef/colbert-amharic-medium)                                   |         42 |         0.882|        0.913 |        0.778 |        0.811 |
+| [`colbert-amharic-base`](https://huggingface.co/rasyosef/colbert-amharic-base)                                     |        110 |   **0.902†** |   **0.930†** |   **0.803†** |   **0.835†** |
+| ***Amharic-fine-tuned multilingual dense retrievers***   |            |              |              |              |              |
+| [`EmbeddingGemma-300M-Amharic`](https://huggingface.co/kiyam/EmbeddingGemma-300M-Amharic)      |        300 |        0.813 |        0.862 |        0.718 |        0.753 |
+| [`Harrier-270M-Amharic`](https://huggingface.co/kiyam/Harrier-270M-Amharic)                                 |        270 |        0.860 |        0.903 |        0.760 |        0.795 |
+| ***Monolingual Amharic retrievers from prior work***     |            |              |              |              |              |
+| `roberta-amharic-text-embedding-medium`                    |         42 |        0.750 |        0.807 |        0.616 |        0.662 |
+| `roberta-amharic-text-embedding-base`                      |        110 |        0.790 |        0.844 |        0.657 |        0.703 |
+| `colbert-roberta-amharic-base`                             |        110 |        0.860 |        0.899 |        0.736 |        0.776 |
+| ***Zero-shot multilingual dense retrievers***            |            |              |              |              |              |
+| `embeddinggemma-300m`                                      |        300 |        0.558 |        0.621 |        0.448 |        0.489 |
+| `gte-multilingual-base`                                    |        305 |        0.690 |        0.755 |        0.557 |        0.605 |
+| `harrier-oss-v1-270m`                                      |        270 |        0.697 |        0.753 |        0.576 |        0.619 |
+| `multilingual-e5-large-instruct`                           |        560 |        0.736 |        0.791 |        0.603 |        0.648 |
+| `snowflake-arctic-embed-l-v2.0`                            |        568 |        0.795 |        0.848 |        0.653 |        0.701 |
+| ***Sparse lexical retrieval***                           |            |              |              |              |              |
+| `BM25`                                                     |         -- |        0.734 |        0.789 |        0.612 |        0.655 |
+
+### Reranker Models eval results
+Two-stage re-ranking results on the Amharic Passage Retrieval Dataset V2.
+
+| Model                      | Params (M) |    MRR@10 |   NDCG@10 |
+| -------------------------- | ---------: | --------: | --------: |
+| `embedding-amharic-base`     |         110 |     0.774 |     0.807 |
+| + [`reranker-amharic-medium`](https://huggingface.co/rasyosef/reranker-amharic-medium) |         42 |     0.805 |     0.835 |
+| **+ [`reranker-amharic-base`](https://huggingface.co/rasyosef/reranker-amharic-base)** |         110 | **0.830** | **0.856** |
 
 
 ## Notebook-first workflow
