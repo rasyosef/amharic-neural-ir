@@ -16,9 +16,9 @@ This repository accompanies the ACL 2026 MeLLM Workshop paper **”The Multiling
 - **Workflows**: notebook implementations for preprocessing, training, and evaluation.
 
 **Hugging Face resources**
-- Dataset: [rasyosef/Amharic-Passage-Retrieval-Dataset-V2](https://huggingface.co/datasets/rasyosef/Amharic-Passage-Retrieval-Dataset-V2)
-- Monolingual Amharic models: [rasyosef/amharic-neural-ir-models](https://huggingface.co/collections/rasyosef/amharic-neural-ir-models)
-- Fine-tuned multilingual models: [kiyam/amharic-fine-tuned-multilingual-retrievers](https://huggingface.co/collections/kiyam/amharic-fine-tuned-multilingual-retrievers)
+- **Dataset:** [rasyosef/Amharic-Passage-Retrieval-Dataset-V2](https://huggingface.co/datasets/rasyosef/Amharic-Passage-Retrieval-Dataset-V2)
+- **Monolingual Amharic models:** [rasyosef/amharic-neural-ir-models](https://huggingface.co/collections/rasyosef/amharic-neural-ir-models)
+- **Fine-tuned multilingual models:** [kiyam/amharic-fine-tuned-multilingual-retrievers](https://huggingface.co/collections/kiyam/amharic-fine-tuned-multilingual-retrievers)
 
 **Monolingual Amharic models**
 - [rasyosef/embedding-amharic-base](https://huggingface.co/rasyosef/embedding-amharic-base)
@@ -39,38 +39,40 @@ First-stage retrieval results on the Amharic Passage Retrieval Dataset V2.
 
 | Model                                                    | Params (M) |          R@5 |         R@10 |       MRR@10 |      NDCG@10 |
 | -------------------------------------------------------- | ---------: | -----------: | -----------: | -----------: | -----------: |
-| ***Monolingual Amharic retrievers introduced in this work***|            |              |              |              |              |
-| [`splade-amharic-medium`](https://huggingface.co/rasyosef/splade-amharic-medium)                                    |         42 |        0.858 |        0.896 |        0.728 |        0.769 |
-| [`splade-amharic-base`](https://huggingface.co/rasyosef/splade-amharic-base)                                      |        110 |        0.871 |        0.906 |        0.754 |        0.792 |
-| [`embedding-amharic-medium`](https://huggingface.co/rasyosef/embedding-amharic-medium)                                     |         42 |        0.843 |        0.888 |        0.744 |        0.779 |
-| [`embedding-amharic-base`](https://huggingface.co/rasyosef/embedding-amharic-base)                                       |        110 |        0.870 |        0.907 |        0.774 |        0.807 |
-| [`colbert-amharic-medium`](https://huggingface.co/rasyosef/colbert-amharic-medium)                                   |         42 |         0.882|        0.913 |        0.778 |        0.811 |
-| [`colbert-amharic-base`](https://huggingface.co/rasyosef/colbert-amharic-base)                                     |        110 |   **0.902†** |   **0.930†** |   **0.803†** |   **0.835†** |
-| ***Amharic-fine-tuned multilingual dense retrievers***   |            |              |              |              |              |
-| [`EmbeddingGemma-300M-Amharic`](https://huggingface.co/kiyam/EmbeddingGemma-300M-Amharic)      |        300 |        0.813 |        0.862 |        0.718 |        0.753 |
-| [`Harrier-270M-Amharic`](https://huggingface.co/kiyam/Harrier-270M-Amharic)                                 |        270 |        0.860 |        0.903 |        0.760 |        0.795 |
-| ***Monolingual Amharic retrievers from prior work***     |            |              |              |              |              |
-| `roberta-amharic-text-embedding-medium`                    |         42 |        0.750 |        0.807 |        0.616 |        0.662 |
-| `roberta-amharic-text-embedding-base`                      |        110 |        0.790 |        0.844 |        0.657 |        0.703 |
-| `colbert-roberta-amharic-base`                             |        110 |        0.860 |        0.899 |        0.736 |        0.776 |
-| ***Zero-shot multilingual dense retrievers***            |            |              |              |              |              |
-| `embeddinggemma-300m`                                      |        300 |        0.558 |        0.621 |        0.448 |        0.489 |
-| `gte-multilingual-base`                                    |        305 |        0.690 |        0.755 |        0.557 |        0.605 |
-| `harrier-oss-v1-270m`                                      |        270 |        0.697 |        0.753 |        0.576 |        0.619 |
-| `multilingual-e5-large-instruct`                           |        560 |        0.736 |        0.791 |        0.603 |        0.648 |
-| `snowflake-arctic-embed-l-v2.0`                            |        568 |        0.795 |        0.848 |        0.653 |        0.701 |
-| ***Sparse lexical retrieval***                           |            |              |              |              |              |
-| `BM25`                                                     |         -- |        0.734 |        0.789 |        0.612 |        0.655 |
+| *Monolingual Amharic retrievers introduced in this work*|            |              |              |              |              |
+| [`splade-amharic-medium`](https://huggingface.co/rasyosef/splade-amharic-medium)            |         42 |        85.8 |        89.6 |        72.8 |        76.9 |
+| [`splade-amharic-base`](https://huggingface.co/rasyosef/splade-amharic-base)                |        110 |        87.1 |        90.6 |        75.4 |        79.2 |
+| [`embedding-amharic-medium`](https://huggingface.co/rasyosef/embedding-amharic-medium)      |         42 |        84.3 |        88.8 |        74.4 |        77.9 |
+| [`embedding-amharic-base`](https://huggingface.co/rasyosef/embedding-amharic-base)          |        110 |        87.0 |        90.7 |        77.4 |        80.7 |
+| [`colbert-amharic-medium`](https://huggingface.co/rasyosef/colbert-amharic-medium)          |         42 |         88.2|        91.3 |        77.8 |        81.1 |
+| **[`colbert-amharic-base†`](https://huggingface.co/rasyosef/colbert-amharic-base)**              |        110 |   **90.2†** |   **93.0†** |   **80.3†** |   **83.5†** |
+| *Amharic-fine-tuned multilingual dense retrievers*   |            |              |          |              |              |
+| [`EmbeddingGemma-300M-Amharic`](https://huggingface.co/kiyam/EmbeddingGemma-300M-Amharic)   |        300 |        81.3 |        86.2 |        71.8 |        75.3 |
+| [`Harrier-270M-Amharic`](https://huggingface.co/kiyam/Harrier-270M-Amharic)                 |        270 |        86.0 |        90.3 |        76.0 |        79.5 |
+| *Monolingual Amharic retrievers from prior work*           |            |             |             |             |             |
+| `roberta-amharic-text-embedding-medium`                    |         42 |        75.0 |         80.7|         61.6 |         66.2 |
+| `roberta-amharic-text-embedding-base`                      |        110 |        79.0 |        84.4 |        65.7 |        0.703 |
+| `colbert-roberta-amharic-base`                             |        110 |        86.0 |        89.9 |        73.6 |        0.776 |
+| *Zero-shot multilingual dense retrievers*                  |            |             |             |              |              |
+| `embeddinggemma-300m`                                      |        300 |        55.8 |        62.1 |        44.8 |        48.9 |
+| `gte-multilingual-base`                                    |        305 |        69.0 |        75.5 |        55.7 |        60.5 |
+| `harrier-oss-v1-270m`                                      |        270 |        69.7 |        75.3 |        57.6 |        61.9 |
+| `multilingual-e5-large-instruct`                           |        560 |        73.6 |        79.1 |        60.3 |        64.8 |
+| `snowflake-arctic-embed-l-v2.0`                            |        568 |        79.5 |        84.8 |        65.3 |        70.1 |
+| *Sparse lexical retrieval*                                 |            |             |             |              |              |
+| `BM25`                                                     |         -- |        73.4 |        78.9 |         61.2 |         65.5 |
 
+> **†** Best overall performance across evaluated retriever models.
 ### Reranker Models eval results
 Two-stage re-ranking results on the Amharic Passage Retrieval Dataset V2.
 
 | Model                      | Params (M) |    MRR@10 |   NDCG@10 |
 | -------------------------- | ---------: | --------: | --------: |
-| `embedding-amharic-base`     |         110 |     0.774 |     0.807 |
-| + [`reranker-amharic-medium`](https://huggingface.co/rasyosef/reranker-amharic-medium) |         42 |     0.805 |     0.835 |
-| **+ [`reranker-amharic-base`](https://huggingface.co/rasyosef/reranker-amharic-base)** |         110 | **0.830** | **0.856** |
+| `embedding-amharic-base`     |         110 |     77.4 |     80.7 |
+| + [`reranker-amharic-medium`](https://huggingface.co/rasyosef/reranker-amharic-medium) |         42 |     80.5 |     83.5 |
+| **+ [`reranker-amharic-base†`](https://huggingface.co/rasyosef/reranker-amharic-base)** |         110 | **83.0†** | **85.6†** |
 
+> **†** Best overall performance across evaluated reranker models.
 
 ## Notebook-first workflow
 
