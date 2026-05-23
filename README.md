@@ -1,19 +1,17 @@
-
-
 # The Multilingual Curse at the Retrieval Layer: Evidence from Amharic
 
 [![ACL 2026](https://img.shields.io/badge/ACL-2026-blue)](https://2026.aclweb.org/)
 [![MeLLM Workshop](https://img.shields.io/badge/Workshop-MeLLM-informational)](https://mellm.org/)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow)](https://huggingface.co/collections/rasyosef/amharic-neural-ir-models)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow)](https://huggingface.co/collections/kiyam/amharic-fine-tuned-multilingual-retrievers)
+[![Hugging Face models](https://img.shields.io/badge/%F0%9F%A4%97-Amharic%20models-yellow)](https://huggingface.co/collections/rasyosef/amharic-neural-ir-models)
+[![Hugging Face multilingual models](https://img.shields.io/badge/%F0%9F%A4%97-Multilingual%20models-yellow)](https://huggingface.co/collections/kiyam/amharic-fine-tuned-multilingual-retrievers)
 [![License](https://img.shields.io/badge/license-LICENSE-lightgrey)](LICENSE)
 
-This repository accompanies the ACL 2026 MeLLM Workshop paper **”The Multilingual Curse at the Retrieval Layer: Evidence from Amharic.”** It provides notebook-based training and evaluation workflows for dense retrieval, late interaction (ColBERT-style), sparse retrieval (SPLADE-style), and cross-encoder reranking in Amharic.
+This repository accompanies the ACL 2026 MeLLM Workshop paper **"The Multilingual Curse at the Retrieval Layer: Evidence from Amharic."** It provides notebook and CLI workflows for dense retrieval, late interaction (ColBERT-style), sparse retrieval (SPLADE-style), and cross-encoder reranking in Amharic.
 
 **Core artifacts**
 - **Benchmark**: Amharic Passage Retrieval Dataset V2 with a fixed 90/10 train–test split (68,000 query–passage pairs).
 - **Model suite**: Amharic-specific checkpoints spanning dense bi-encoders, late-interaction (ColBERT-style), learned sparse retrievers (SPLADE-style), and cross-encoder rerankers.
-- **Workflows**: notebook implementations for preprocessing, training, and evaluation.
+- **Workflows**: notebook implementations for preprocessing, training, and evaluation, plus CLI/SLURM scripts for selected fine-tuning and evaluation runs.
 
 **Hugging Face resources**
 - **Dataset:** [rasyosef/Amharic-Passage-Retrieval-Dataset-V2](https://huggingface.co/datasets/rasyosef/Amharic-Passage-Retrieval-Dataset-V2)
@@ -34,25 +32,25 @@ This repository accompanies the ACL 2026 MeLLM Workshop paper **”The Multiling
 - [kiyam/EmbeddingGemma-300M-Amharic](https://huggingface.co/kiyam/EmbeddingGemma-300M-Amharic) — MRR@10: 0.718, NDCG@10: 0.753
 - [kiyam/Harrier-270M-Amharic](https://huggingface.co/kiyam/Harrier-270M-Amharic) — MRR@10: 0.760, NDCG@10: 0.795
 
-### Retriever Models Eval results
+### Retriever Model Evaluation Results
 First-stage retrieval results on the Amharic Passage Retrieval Dataset V2.
 
 | Model                                                    | Params (M) |          R@5 |         R@10 |       MRR@10 |      NDCG@10 |
 | -------------------------------------------------------- | ---------: | -----------: | -----------: | -----------: | -----------: |
-| *Monolingual Amharic retrievers introduced in this work*|            |              |              |              |              |
+| *Monolingual Amharic retrievers introduced in this work* |            |              |              |              |              |
 | [`splade-amharic-medium`](https://huggingface.co/rasyosef/splade-amharic-medium)            |         42 |        85.8 |        89.6 |        72.8 |        76.9 |
 | [`splade-amharic-base`](https://huggingface.co/rasyosef/splade-amharic-base)                |        110 |        87.1 |        90.6 |        75.4 |        79.2 |
 | [`embedding-amharic-medium`](https://huggingface.co/rasyosef/embedding-amharic-medium)      |         42 |        84.3 |        88.8 |        74.4 |        77.9 |
 | [`embedding-amharic-base`](https://huggingface.co/rasyosef/embedding-amharic-base)          |        110 |        87.0 |        90.7 |        77.4 |        80.7 |
-| [`colbert-amharic-medium`](https://huggingface.co/rasyosef/colbert-amharic-medium)          |         42 |         88.2|        91.3 |        77.8 |        81.1 |
+| [`colbert-amharic-medium`](https://huggingface.co/rasyosef/colbert-amharic-medium)          |         42 |        88.2 |        91.3 |        77.8 |        81.1 |
 | **[`colbert-amharic-base†`](https://huggingface.co/rasyosef/colbert-amharic-base)**              |        110 |   **90.2†** |   **93.0†** |   **80.3†** |   **83.5†** |
-| *Amharic-fine-tuned multilingual dense retrievers*   |            |              |          |              |              |
+| *Amharic-fine-tuned multilingual dense retrievers*       |            |              |              |              |              |
 | [`EmbeddingGemma-300M-Amharic`](https://huggingface.co/kiyam/EmbeddingGemma-300M-Amharic)   |        300 |        81.3 |        86.2 |        71.8 |        75.3 |
 | [`Harrier-270M-Amharic`](https://huggingface.co/kiyam/Harrier-270M-Amharic)                 |        270 |        86.0 |        90.3 |        76.0 |        79.5 |
 | *Monolingual Amharic retrievers from prior work*           |            |             |             |             |             |
-| `roberta-amharic-text-embedding-medium`                    |         42 |        75.0 |         80.7|         61.6 |         66.2 |
-| `roberta-amharic-text-embedding-base`                      |        110 |        79.0 |        84.4 |        65.7 |        0.703 |
-| `colbert-roberta-amharic-base`                             |        110 |        86.0 |        89.9 |        73.6 |        0.776 |
+| `roberta-amharic-text-embedding-medium`                    |         42 |        75.0 |        80.7 |        61.6 |        66.2 |
+| `roberta-amharic-text-embedding-base`                      |        110 |        79.0 |        84.4 |        65.7 |        70.3 |
+| `colbert-roberta-amharic-base`                             |        110 |        86.0 |        89.9 |        73.6 |        77.6 |
 | *Zero-shot multilingual dense retrievers*                  |            |             |             |              |              |
 | `embeddinggemma-300m`                                      |        300 |        55.8 |        62.1 |        44.8 |        48.9 |
 | `gte-multilingual-base`                                    |        305 |        69.0 |        75.5 |        55.7 |        60.5 |
@@ -63,7 +61,8 @@ First-stage retrieval results on the Amharic Passage Retrieval Dataset V2.
 | `BM25`                                                     |         -- |        73.4 |        78.9 |         61.2 |         65.5 |
 
 > **†** Best overall performance across evaluated retriever models.
-### Reranker Models eval results
+
+### Reranker Model Evaluation Results
 Two-stage re-ranking results on the Amharic Passage Retrieval Dataset V2.
 
 | Model                      | Params (M) |    MRR@10 |   NDCG@10 |
@@ -76,8 +75,7 @@ Two-stage re-ranking results on the Amharic Passage Retrieval Dataset V2.
 
 ## Notebook-first workflow
 
-This codebase is organized primarily as Jupyter notebooks (rather than standalone `.py` scripts). The goal is to keep the full pipeline easy to follow and modify step-by-step, especially for practitioners. Because the dataset used in these workflows is relatively small, we keep the main experiments and analysis in notebook format for clarity and quick iteration.
-
+This codebase is organized primarily as Jupyter notebooks, with standalone Python scripts for selected fine-tuning and evaluation runs. The goal is to keep the full pipeline easy to follow and modify step-by-step, especially for practitioners. Because the dataset used in these workflows is relatively small, we keep the main experiments and analysis in notebook format for clarity and quick iteration.
 
 **Practical notes**
 
@@ -275,7 +273,7 @@ If you use this repository, please cite:
 ```bibtex
 @inproceedings{alemneh2026amharicir,
   title     = {The Multilingual Curse at the Retrieval Layer: Evidence from Amharic},
-  author    = {Alemneh, Yosef Worku and Mekonnen, Kidist Amde Mekand de Rijke, Maarten},
+  author    = {Alemneh, Yosef Worku and Mekonnen, Kidist Amde and de Rijke, Maarten},
   booktitle = {Proceedings of the 1st Workshop on Multilinguality in the Era of Large Language Models (MeLLM), ACL 2026},
   year      = {2026},
 }
