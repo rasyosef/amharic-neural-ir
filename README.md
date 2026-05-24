@@ -185,7 +185,7 @@ print(similarities)
 
 ```
 
-### ColBERT / Late-Interaction
+4. #### ColBERT / Late-Interaction
 
 First install the PyLate library:
 
