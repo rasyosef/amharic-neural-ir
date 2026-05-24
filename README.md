@@ -32,7 +32,7 @@ This repository accompanies the ACL 2026 MeLLM Workshop paper **"The Multilingua
 - [kiyam/EmbeddingGemma-300M-Amharic](https://huggingface.co/kiyam/EmbeddingGemma-300M-Amharic) — MRR@10: 0.718, NDCG@10: 0.753
 - [kiyam/Harrier-270M-Amharic](https://huggingface.co/kiyam/Harrier-270M-Amharic) — MRR@10: 0.760, NDCG@10: 0.795
 
-### Retriever Model Evaluation Results
+#### Retriever Model Evaluation Results
 First-stage retrieval results on the Amharic Passage Retrieval Dataset V2.
 
 | Model                                                    | Params (M) |          R@5 |         R@10 |       MRR@10 |      NDCG@10 |
@@ -62,7 +62,7 @@ First-stage retrieval results on the Amharic Passage Retrieval Dataset V2.
 
 > **†** Best overall performance across evaluated retriever models.
 
-### Reranker Model Evaluation Results
+#### Reranker Model Evaluation Results
 Two-stage re-ranking results on the Amharic Passage Retrieval Dataset V2.
 
 | Model                      | Params (M) |    MRR@10 |   NDCG@10 |
