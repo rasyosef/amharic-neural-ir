@@ -85,8 +85,17 @@ pip install -U sentence-transformers
 Then you can load the models and run inference.
 
 #### 1. Embedding Models
+Embedding models convert text into dense vector representations that can be used for:
+
+- Semantic search
+- Information retrieval
+- Clustering
+- Similarity search
 
 ##### Monolingual
+- Model: `rasyosef/embedding-amharic-base`
+- Optimized for Amharic semantic search and retrieval tasks.
+
 ```python
 from sentence_transformers import SentenceTransformer
 
@@ -104,11 +113,15 @@ print(embeddings.shape)
 
 # Get the similarity scores for the embeddings
 similarities = model.similarity(embeddings, embeddings)
-print(similarities.shape)
-# [3, 3]
+print(similarities)
+# tensor([[1.0000, 0.4202, 0.0180],
+#         [0.4202, 1.0000, 0.1316],
+#         [0.0180, 0.1316, 1.0000]])
 ```
 
-##### Multilingual
+##### Fine-tuned Multilingual
+- Model: `kiyam/Harrier-270M-Amharic`
+- Multilingual embedding model further fine-tuned for Amharic retrieval tasks.
 
 ```python
 from sentence_transformers import SentenceTransformer
@@ -132,6 +145,10 @@ print(similarities.shape)
 ```
 
 #### 2. Rerankers/Cross-Encoders
+Cross-encoders jointly encode a query-document pair and produce a relevance score.
+They are commonly used to rerank candidates retrieved by a first-stage retriever.
+
+- Model: `rasyosef/reranker-amharic-base`
 
 ```python
 from sentence_transformers import CrossEncoder
@@ -141,8 +158,8 @@ model = CrossEncoder("rasyosef/reranker-amharic-base")
 
 # Get scores for pairs of texts
 pairs = [
-    ['ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና', 'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል። በዚህ የተነሳም የኢትዮጵያ ቡናና ሻይ ባለሥልጣንን ጨምሮ የሚመላካታቸው ሁሉ ቡና ላኪዎችና አምራቾች ያከማቹትን ቡና በፍጥነት ወደ ዓለም ገበያ እንዲያወጡ ጥሪ እያቀረቡ ነው ።'],
-    ['ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና', 'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር። ከፑቲን ጋር ደግሞ ዢ ለሁለቱ አገራት ስልታዊም ሆነ ኢኮኖሚያዊ ጠቀሜታ ረጅም ጊዜ የዘለቀውን አጋርነትን ይበልጥ ማጠናከር ላይ ነበር ትኩረታቸው።']
+    ['ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና', 'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል።'],
+    ['ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና', 'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር።']
 ]
 scores = model.predict(pairs)
 print(scores.shape)
@@ -152,14 +169,18 @@ print(scores.shape)
 ranks = model.rank(
     'ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና',
     [
-        'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል። በዚህ የተነሳም የኢትዮጵያ ቡናና ሻይ ባለሥልጣንን ጨምሮ የሚመላካታቸው ሁሉ ቡና ላኪዎችና አምራቾች ያከማቹትን ቡና በፍጥነት ወደ ዓለም ገበያ እንዲያወጡ ጥሪ እያቀረቡ ነው ።',
-        'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር። ከፑቲን ጋር ደግሞ ዢ ለሁለቱ አገራት ስልታዊም ሆነ ኢኮኖሚያዊ ጠቀሜታ ረጅም ጊዜ የዘለቀውን አጋርነትን ይበልጥ ማጠናከር ላይ ነበር ትኩረታቸው።',
+        'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል።',
+        'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር።',
     ]
 )
-# [{'corpus_id': ..., 'score': ...}, {'corpus_id': ..., 'score': ...}, ...]
+print(ranks)
+# [{'corpus_id': 0, 'score': np.float32(0.9555243)}, {'corpus_id': 1, 'score': np.float32(0.0012893651)}]
 ```
 
 #### 3. SPLADE / Sparse Encoders
+SPLADE models generate sparse lexical-semantic representations compatible with inverted indexes.
+
+- Model: `rasyosef/splade-amharic-base`
 
 ```python
 from sentence_transformers import SparseEncoder
@@ -169,8 +190,8 @@ model = SparseEncoder("rasyosef/splade-amharic-base")
 # Run inference
 sentences = [
     'ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና',
-    'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል። በዚህ የተነሳም የኢትዮጵያ ቡናና ሻይ ባለሥልጣንን ጨምሮ የሚመላካታቸው ሁሉ ቡና ላኪዎችና አምራቾች ያከማቹትን ቡና በፍጥነት ወደ ዓለም ገበያ እንዲያወጡ ጥሪ እያቀረቡ ነው ።',
-    'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር። ከፑቲን ጋር ደግሞ ዢ ለሁለቱ አገራት ስልታዊም ሆነ ኢኮኖሚያዊ ጠቀሜታ ረጅም ጊዜ የዘለቀውን አጋርነትን ይበልጥ ማጠናከር ላይ ነበር ትኩረታቸው።',
+    'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል።',
+    'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር።',
 ]
 embeddings = model.encode(sentences)
 print(embeddings.shape)
@@ -179,13 +200,16 @@ print(embeddings.shape)
 # Get the similarity scores for the embeddings
 similarities = model.similarity(embeddings, embeddings)
 print(similarities)
-# tensor([[45.2024, 19.3316,  0.0000],
-#         [19.3316, 48.7685,  8.5323],
-#         [ 0.0000,  8.5323, 63.2857]])
+# tensor([[45.2024, 11.8912,  0.0000],
+#         [11.8912, 29.1348,  6.6066],
+#         [ 0.0000,  6.6066, 39.7972]])
 
 ```
 
-4. #### ColBERT / Late-Interaction
+#### 4. ColBERT / Late-Interaction
+ColBERT models use late interaction between token embeddings for high-quality retrieval.
+
+- Model: `rasyosef/colbert-amharic-base`
 
 First install the PyLate library:
 
@@ -207,7 +231,7 @@ sentences = [
     'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር።',
 ]
 embeddings = model.encode(
-    queries,
+    sentences,
     is_query=True,
 )
 print(embeddings[0].shape)
@@ -215,8 +239,10 @@ print(embeddings[0].shape)
 
 # Get the similarity scores for the embeddings
 similarities = model.similarity(embeddings, embeddings)
-print(similarities.shape)
-# [3, 3]
+print(similarities)
+# tensor([[32.0000, 20.4463,  2.9574],
+#         [19.6756, 32.0000, 11.4214],
+#         [ 2.8087, 11.9757, 32.0000]])
 ```
 
 ## Notebook-first workflow
