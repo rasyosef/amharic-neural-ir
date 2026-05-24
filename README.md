@@ -185,6 +185,40 @@ print(similarities)
 
 ```
 
+### ColBERT / Late-Interaction
+
+First install the PyLate library:
+
+```bash
+pip install -U pylate
+```
+
+```python
+from pylate import models
+
+# Download from the 🤗 Hub
+model = models.ColBERT(
+    model_name_or_path="rasyosef/colbert-amharic-base",
+)
+# Run inference
+sentences = [
+    'ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና',
+    'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል።',
+    'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር።',
+]
+embeddings = model.encode(
+    queries,
+    is_query=True,
+)
+print(embeddings[0].shape)
+# (32, 128)
+
+# Get the similarity scores for the embeddings
+similarities = model.similarity(embeddings, embeddings)
+print(similarities.shape)
+# [3, 3]
+```
+
 ## Notebook-first workflow
 
 This codebase is organized primarily as Jupyter notebooks, with standalone Python scripts for selected fine-tuning and evaluation runs. The goal is to keep the full pipeline easy to follow and modify step-by-step, especially for practitioners. Because the dataset used in these workflows is relatively small, we keep the main experiments and analysis in notebook format for clarity and quick iteration.
