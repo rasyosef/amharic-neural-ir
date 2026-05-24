@@ -73,6 +73,118 @@ Two-stage re-ranking results on the Amharic Passage Retrieval Dataset V2.
 
 > **†** Best overall performance across evaluated reranker models.
 
+### Using the models
+
+#### Direct Usage (Sentence Transformers)
+First install the Sentence Transformers library:
+
+```bash
+pip install -U sentence-transformers
+```
+
+Then you can load the models and run inference.
+
+#### 1. Embedding Models
+
+##### Monolingual
+```python
+from sentence_transformers import SentenceTransformer
+
+# Download from the 🤗 Hub
+model = SentenceTransformer("rasyosef/embedding-amharic-base")
+# Run inference
+sentences = [
+    'ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና',
+    'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል።',
+    'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር።',
+]
+embeddings = model.encode(sentences)
+print(embeddings.shape)
+# [3, 768]
+
+# Get the similarity scores for the embeddings
+similarities = model.similarity(embeddings, embeddings)
+print(similarities.shape)
+# [3, 3]
+```
+
+##### Multilingual
+
+```python
+from sentence_transformers import SentenceTransformer
+
+# Download from the 🤗 Hub
+model = SentenceTransformer("kiyam/Harrier-270M-Amharic")
+# Run inference
+sentences = [
+    'ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና',
+    'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል።',
+    'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር።',
+]
+embeddings = model.encode(sentences)
+print(embeddings.shape)
+# [3, 768]
+
+# Get the similarity scores for the embeddings
+similarities = model.similarity(embeddings, embeddings)
+print(similarities.shape)
+# [3, 3]
+```
+
+#### 2. Rerankers/Cross-Encoders
+
+```python
+from sentence_transformers import CrossEncoder
+
+# Download from the 🤗 Hub
+model = CrossEncoder("rasyosef/reranker-amharic-base")
+
+# Get scores for pairs of texts
+pairs = [
+    ['ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና', 'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል። በዚህ የተነሳም የኢትዮጵያ ቡናና ሻይ ባለሥልጣንን ጨምሮ የሚመላካታቸው ሁሉ ቡና ላኪዎችና አምራቾች ያከማቹትን ቡና በፍጥነት ወደ ዓለም ገበያ እንዲያወጡ ጥሪ እያቀረቡ ነው ።'],
+    ['ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና', 'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር። ከፑቲን ጋር ደግሞ ዢ ለሁለቱ አገራት ስልታዊም ሆነ ኢኮኖሚያዊ ጠቀሜታ ረጅም ጊዜ የዘለቀውን አጋርነትን ይበልጥ ማጠናከር ላይ ነበር ትኩረታቸው።']
+]
+scores = model.predict(pairs)
+print(scores.shape)
+# (2,)
+
+# Or rank different texts based on similarity to a single text
+ranks = model.rank(
+    'ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና',
+    [
+        'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል። በዚህ የተነሳም የኢትዮጵያ ቡናና ሻይ ባለሥልጣንን ጨምሮ የሚመላካታቸው ሁሉ ቡና ላኪዎችና አምራቾች ያከማቹትን ቡና በፍጥነት ወደ ዓለም ገበያ እንዲያወጡ ጥሪ እያቀረቡ ነው ።',
+        'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር። ከፑቲን ጋር ደግሞ ዢ ለሁለቱ አገራት ስልታዊም ሆነ ኢኮኖሚያዊ ጠቀሜታ ረጅም ጊዜ የዘለቀውን አጋርነትን ይበልጥ ማጠናከር ላይ ነበር ትኩረታቸው።',
+    ]
+)
+# [{'corpus_id': ..., 'score': ...}, {'corpus_id': ..., 'score': ...}, ...]
+```
+
+#### 3. SPLADE / Sparse Encoders
+
+```python
+from sentence_transformers import SparseEncoder
+
+# Download from the 🤗 Hub
+model = SparseEncoder("rasyosef/splade-amharic-base")
+# Run inference
+sentences = [
+    'ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና',
+    'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል። በዚህ የተነሳም የኢትዮጵያ ቡናና ሻይ ባለሥልጣንን ጨምሮ የሚመላካታቸው ሁሉ ቡና ላኪዎችና አምራቾች ያከማቹትን ቡና በፍጥነት ወደ ዓለም ገበያ እንዲያወጡ ጥሪ እያቀረቡ ነው ።',
+    'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር። ከፑቲን ጋር ደግሞ ዢ ለሁለቱ አገራት ስልታዊም ሆነ ኢኮኖሚያዊ ጠቀሜታ ረጅም ጊዜ የዘለቀውን አጋርነትን ይበልጥ ማጠናከር ላይ ነበር ትኩረታቸው።',
+]
+embeddings = model.encode(sentences)
+print(embeddings.shape)
+# [3, 32000]
+
+# Get the similarity scores for the embeddings
+similarities = model.similarity(embeddings, embeddings)
+print(similarities)
+# tensor([[45.2024, 19.3316,  0.0000],
+#         [19.3316, 48.7685,  8.5323],
+#         [ 0.0000,  8.5323, 63.2857]])
+
+```
+
 ## Notebook-first workflow
 
 This codebase is organized primarily as Jupyter notebooks, with standalone Python scripts for selected fine-tuning and evaluation runs. The goal is to keep the full pipeline easy to follow and modify step-by-step, especially for practitioners. Because the dataset used in these workflows is relatively small, we keep the main experiments and analysis in notebook format for clarity and quick iteration.
