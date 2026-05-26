@@ -8,6 +8,8 @@
 
 This repository accompanies the ACL 2026 MeLLM Workshop paper **"The Multilingual Curse at the Retrieval Layer: Evidence from Amharic."** It provides notebook and CLI workflows for dense retrieval, late interaction (ColBERT-style), sparse retrieval (SPLADE-style), and cross-encoder reranking in Amharic.
 
+**Paper**: https://arxiv.org/abs/2605.24556
+
 **Core artifacts**
 - **Benchmark**: Amharic Passage Retrieval Dataset V2 with a fixed 90/10 train–test split (68,000 query–passage pairs).
 - **Model suite**: Amharic-specific checkpoints spanning dense bi-encoders, late-interaction (ColBERT-style), learned sparse retrievers (SPLADE-style), and cross-encoder rerankers.
