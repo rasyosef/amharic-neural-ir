@@ -101,24 +101,27 @@ Embedding models convert text into dense vector representations that can be used
 ```python
 from sentence_transformers import SentenceTransformer
 
-# Download from the 🤗 Hub
 model = SentenceTransformer("rasyosef/embedding-amharic-base")
-# Run inference
-sentences = [
-    'ለውጭ ገበያ በሚቀርበው የኢትዮጵያ ቡና ላይ የተጋረጠው ፈተና',
-    'የኢትዮጵያ ዋነኛ የውጭ ምንዛሬ ምንጭ የሆነው ወደ ውጭ የሚላክ ቡና ዘርፍ በአሁኑ ጊዜ ከፍተኛ ውጥረት ውስጥ ገብቷል።',
-    'የቻይናው ፕሬዝዳንት ዚ ጂንፒንግ ከትራምፕ ጋር ባደረጉት ጉባኤ ትኩረታቸው በሁለቱ ሀገራት መካከል ለወራት ከተፈጠረ ውጥረት እና የንግድ ጦርነት በኋላ የተረገጋጋ ግንኙነትን ማስቀጠል ነበር።',
-]
-embeddings = model.encode(sentences)
-print(embeddings.shape)
-# [3, 768]
 
-# Get the similarity scores for the embeddings
-similarities = model.similarity(embeddings, embeddings)
+# What is the capital of Ethiopia? / France
+queries = ['የኢትዮጵያ ዋና ከተማ ማናት?', 'የፈረንሳይ ዋና ከተማ ማናት?'] 
+
+# Addis Ababa, Gondar, Paris, London, Washington D.C.
+documents = ['አዲስ አበባ', 'ጎንደር', 'ፓሪስ', 'ለንደን', 'ዋሽንግተን ዲሲ'] 
+
+# Compute embeddings
+query_embeddings = model.encode_query(queries) # [2, 768]
+document_embeddings = model.encode_document(documents) # [5, 768]
+
+# Calculate semantic similarity
+similarities = model.similarity(
+    query_embeddings, 
+    document_embeddings
+)
+
 print(similarities)
-# tensor([[1.0000, 0.4202, 0.0180],
-#         [0.4202, 1.0000, 0.1316],
-#         [0.0180, 0.1316, 1.0000]])
+# tensor([[0.5075, 0.3114, 0.0798, 0.1967, 0.1340],
+#         [0.1777, 0.0770, 0.5714, 0.2596, 0.1076]])
 ```
 
 ##### Fine-tuned Multilingual
