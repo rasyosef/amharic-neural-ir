@@ -77,11 +77,13 @@ Two-stage re-ranking results on the Amharic Passage Retrieval Dataset V2.
 
 ### Using the models
 
-To see the models in action, check out the following notebook. 
+To see the models in action, check out the following `notebooks`. 
 - [Amharic Embedding, Reranking & RAG with LlamaIndex](indexing-and-search/Amharic%20Embedding,%20Reranking%20&%20RAG%20with%20LlamaIndex.ipynb) 
 
 > This hands-on guide demonstrates how to use our custom embedding models and reranker alongside **LlamaIndex** to implement a robust **two-stage retrieval** pipeline and a complete **RAG** (Retrieval-Augmented Generation) system.
 
+- [Sparse Retrieval with Amharic SPLADE and splade-index](indexing-and-search/Sparse%20Retrieval%20with%20Amharic%20SPLADE%20and%20splade-index.ipynb)
+- [Retrieval with Amharic ColBERT and PLAID](indexing-and-search/Retrieval%20with%20Amharic%20ColBERT%20and%20PLAID.ipynb)
 #### Direct Usage (Sentence Transformers)
 First install the Sentence Transformers library:
 
