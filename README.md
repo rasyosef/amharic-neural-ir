@@ -37,12 +37,23 @@ This repository accompanies the ACL 2026 MeLLM Workshop paper **"The Multilingua
 **Indexing and Search notebooks**
 
 To see the models in action, check out the following `notebooks`. 
-- [Amharic Embedding, Reranking & RAG with LlamaIndex](indexing-and-search/Amharic%20Embedding,%20Reranking%20&%20RAG%20with%20LlamaIndex.ipynb) 
+- [Amharic Embedding, Reranking & RAG with LlamaIndex](https://colab.research.google.com/github/rasyosef/amharic-neural-ir/blob/main/indexing-and-search/Amharic%20Embedding,%20Reranking%20&%20RAG%20with%20LlamaIndex.ipynb) 
 
 > This hands-on guide demonstrates how to use our custom embedding models and cross-encoder rerankers alongside **LlamaIndex** to implement a robust **two-stage retrieval** pipeline and a complete **RAG** (Retrieval-Augmented Generation) system.
 
-- [Sparse Retrieval with Amharic SPLADE and splade-index](indexing-and-search/Sparse%20Retrieval%20with%20Amharic%20SPLADE%20and%20splade-index.ipynb)
-- [Late-Interaction Retrieval with Amharic ColBERT and PLAID](indexing-and-search/Retrieval%20with%20Amharic%20ColBERT%20and%20PLAID.ipynb)
+- [Sparse Retrieval with Amharic SPLADE and splade-index](https://colab.research.google.com/github/rasyosef/amharic-neural-ir/blob/main/indexing-and-search/Sparse%20Retrieval%20with%20Amharic%20SPLADE%20and%20splade-index.ipynb)
+- [Late-Interaction Retrieval with Amharic ColBERT and PLAID](https://colab.research.google.com/github/rasyosef/amharic-neural-ir/blob/main/indexing-and-search/Retrieval%20with%20Amharic%20ColBERT%20and%20PLAID.ipynb)
+
+> [!TIP]
+> Open any notebook directly in **Google Colab** by replacing `github.com` in the notebook URL with `colab.research.google.com/github/`.
+>
+> **Example**
+>
+> Original:
+> `https://github.com/rasyosef/amharic-neural-ir/blob/main/training/embeddings-amharic/train-roberta-amharic-embed-base.ipynb`
+>
+> Colab:
+> `https://colab.research.google.com/github/rasyosef/amharic-neural-ir/blob/main/training/embeddings-amharic/train-roberta-amharic-embed-base.ipynb`
 
 #### Retriever Model Evaluation Results
 First-stage retrieval results on the Amharic Passage Retrieval Dataset V2.
