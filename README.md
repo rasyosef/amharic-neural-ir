@@ -12,8 +12,8 @@ This repository accompanies the ACL 2026 MeLLM Workshop paper **"The Multilingua
 
 **Core artifacts**
 - **Benchmark**: Amharic Passage Retrieval Dataset V2 with a fixed 90/10 train–test split (68,000 query–passage pairs).
-- **Model suite**: Amharic-specific checkpoints spanning dense bi-encoders, late-interaction (ColBERT-style), learned sparse retrievers (SPLADE-style), and cross-encoder rerankers.
-- **Workflows**: notebook implementations for preprocessing, training, and evaluation, plus CLI/SLURM scripts for selected fine-tuning and evaluation runs.
+- **Model suite**: Amharic-specific checkpoints spanning `dense bi-encoders`, `late-interaction (ColBERT-style)`, `learned sparse retrievers (SPLADE-style)`, and `cross-encoder rerankers`.
+- **Workflows**: notebook implementations for `preprocessing`, `training`, `evaluation`, `indexing`, `search`, and `RAG` plus CLI/SLURM scripts for selected fine-tuning and evaluation runs.
 
 **Hugging Face resources**
 - **Dataset:** [rasyosef/Amharic-Passage-Retrieval-Dataset-V2](https://huggingface.co/datasets/rasyosef/Amharic-Passage-Retrieval-Dataset-V2)
@@ -76,6 +76,11 @@ Two-stage re-ranking results on the Amharic Passage Retrieval Dataset V2.
 > **†** Best overall performance across evaluated reranker models.
 
 ### Using the models
+
+To see the models in action, check out the following notebook. 
+- [Amharic Embedding, Reranking & RAG with LlamaIndex](indexing-and-search/Amharic%20Embedding,%20Reranking%20&%20RAG%20with%20LlamaIndex.ipynb) 
+
+> This hands-on guide demonstrates how to use our custom embedding models and reranker alongside **LlamaIndex** to implement a robust **two-stage retrieval** pipeline and a complete **RAG** (Retrieval-Augmented Generation) system.
 
 #### Direct Usage (Sentence Transformers)
 First install the Sentence Transformers library:
