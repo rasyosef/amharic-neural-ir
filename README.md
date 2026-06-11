@@ -44,17 +44,6 @@ To see the models in action, check out the following `notebooks`.
 - [Sparse Retrieval with Amharic SPLADE and splade-index](https://colab.research.google.com/github/rasyosef/amharic-neural-ir/blob/main/indexing-and-search/Sparse%20Retrieval%20with%20Amharic%20SPLADE%20and%20splade-index.ipynb)
 - [Late-Interaction Retrieval with Amharic ColBERT and PLAID](https://colab.research.google.com/github/rasyosef/amharic-neural-ir/blob/main/indexing-and-search/Retrieval%20with%20Amharic%20ColBERT%20and%20PLAID.ipynb)
 
-> [!TIP]
-> Open any notebook directly in **Google Colab** by replacing `github.com` in the notebook URL with `colab.research.google.com/github/`.
->
-> **Example**
->
-> Original:
-> `https://github.com/rasyosef/amharic-neural-ir/blob/main/training/embeddings-amharic/train-roberta-amharic-embed-base.ipynb`
->
-> Colab:
-> `https://colab.research.google.com/github/rasyosef/amharic-neural-ir/blob/main/training/embeddings-amharic/train-roberta-amharic-embed-base.ipynb`
-
 ## Project Structure
 
 ```text
@@ -323,6 +312,19 @@ print(similarities)
 ```
 
 ## Notebook-first workflow
+
+
+> [!TIP]
+> Open any notebook directly in **Google Colab** by replacing `github.com` in the notebook URL with `colab.research.google.com/github/`.
+>
+> **Example**
+>
+> Original:
+> `https://github.com/rasyosef/amharic-neural-ir/blob/main/training/embeddings-amharic/train-roberta-amharic-embed-base.ipynb`
+>
+> Colab:
+> `https://colab.research.google.com/github/rasyosef/amharic-neural-ir/blob/main/training/embeddings-amharic/train-roberta-amharic-embed-base.ipynb`
+
 
 This codebase is organized primarily as Jupyter notebooks, with standalone Python scripts for selected fine-tuning and evaluation runs. The goal is to keep the full pipeline easy to follow and modify step-by-step, especially for practitioners. Because the dataset used in these workflows is relatively small, we keep the main experiments and analysis in notebook format for clarity and quick iteration.
 
