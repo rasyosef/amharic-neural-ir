@@ -60,12 +60,6 @@ To see the models in action, check out the following `notebooks`.
 ```text
 amharic-neural-ir/
 │
-├── evaluation/
-│   ├── evaluate-amharic-colbert-passage-retrieval.ipynb
-│   ├── evaluate-amharic-embedding-passage-retrieval.ipynb
-│   ├── evaluate-amharic-rerankers-passage-retrieval.ipynb
-│   └── evaluate-amharic-splade-passage-retrieval.ipynb
-│
 ├── preprocessing/
 │   └── hard-negatives-mining-amharic-retrieval-dataset.ipynb
 │
@@ -82,6 +76,12 @@ amharic-neural-ir/
 │   └── splade-amharic/
 │       ├── train-splade-roberta-amharic-base.ipynb
 │       └── train-splade-roberta-amharic-medium.ipynb
+│
+├── evaluation/
+│   ├── evaluate-amharic-colbert-passage-retrieval.ipynb
+│   ├── evaluate-amharic-embedding-passage-retrieval.ipynb
+│   ├── evaluate-amharic-rerankers-passage-retrieval.ipynb
+│   └── evaluate-amharic-splade-passage-retrieval.ipynb
 │
 ├── indexing-and-search/
 │   ├── Amharic Embedding, Reranking & RAG with LlamaIndex.ipynb
