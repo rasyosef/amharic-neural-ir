@@ -55,6 +55,57 @@ To see the models in action, check out the following `notebooks`.
 > Colab:
 > `https://colab.research.google.com/github/rasyosef/amharic-neural-ir/blob/main/training/embeddings-amharic/train-roberta-amharic-embed-base.ipynb`
 
+## Project Structure
+
+```text
+amharic-neural-ir/
+│
+├── evaluation/
+│   ├── evaluate-amharic-colbert-passage-retrieval.ipynb
+│   ├── evaluate-amharic-embedding-passage-retrieval.ipynb
+│   ├── evaluate-amharic-rerankers-passage-retrieval.ipynb
+│   └── evaluate-amharic-splade-passage-retrieval.ipynb
+│
+├── preprocessing/
+│   └── hard-negatives-mining-amharic-retrieval-dataset.ipynb
+│
+├── training/
+│   ├── colbert-amharic/
+│   │   ├── train-colbert-amharic-base.ipynb
+│   │   └── train-colbert-amharic-medium.ipynb
+│   ├── crossencoder-amharic/
+│   │   ├── train-roberta-amharic-reranker-base.ipynb
+│   │   └── train-roberta-amharic-reranker-medium.ipynb
+│   ├── embeddings-amharic/
+│   │   ├── train-roberta-amharic-embed-base.ipynb
+│   │   └── train-roberta-amharic-embed-medium.ipynb
+│   └── splade-amharic/
+│       ├── train-splade-roberta-amharic-base.ipynb
+│       └── train-splade-roberta-amharic-medium.ipynb
+│
+├── indexing-and-search/
+│   ├── Amharic Embedding, Reranking & RAG with LlamaIndex.ipynb
+│   ├── Sparse Retrieval with Amharic SPLADE and splade-index.ipynb
+│   └── Retrieval with Amharic ColBERT and PLAID.ipynb
+│
+├── scripts/
+│   ├── README.md
+│   ├── run_finetune_embeddinggemma.sbatch
+│   ├── run_finetune_harrier.sbatch
+│   ├── run_evaluate_gemma.sbatch
+│   └── run_evaluate_harrier.sbatch
+│
+├── evaluate_ir.py                        # CLI: evaluate retrieval models
+├── finetune_embeddinggemma_amharic.py    # CLI: fine-tune EmbeddingGemma
+├── finetune_harrier_amharic.py           # CLI: fine-tune Harrier
+├── amharicir-environment.yml             # Conda environment (Python 3.10)
+├── requirements.txt                      # pip dependencies
+├── CITATION.cff                          # Citation metadata
+├── LICENSE                               # MIT License
+└── README.md
+```
+
+
 #### Retriever Model Evaluation Results
 First-stage retrieval results on the Amharic Passage Retrieval Dataset V2.
 
@@ -418,45 +469,6 @@ Logs are written to `logs-slurm/`.
 - GPU execution, FAISS-based retrieval, and notebook-interactive execution can introduce run-to-run variation.
 - Results can vary slightly across hardware and drivers even with fixed seeds and pinned software.
 
-## Project Structure
-
-```text
-.
-├── evaluation/
-│   ├── evaluate-amharic-colbert-passage-retrieval.ipynb
-│   ├── evaluate-amharic-embedding-passage-retrieval.ipynb
-│   ├── evaluate-amharic-rerankers-passage-retrieval.ipynb
-│   └── evaluate-amharic-splade-passage-retrieval.ipynb
-├── preprocessing/
-│   └── hard-negatives-mining-amharic-retrieval-dataset.ipynb
-├── training/
-│   ├── colbert-amharic/
-│   │   ├── train-colbert-amharic-base.ipynb
-│   │   └── train-colbert-amharic-medium.ipynb
-│   ├── crossencoder-amharic/
-│   │   ├── train-roberta-amharic-reranker-base.ipynb
-│   │   └── train-roberta-amharic-reranker-medium.ipynb
-│   ├── embeddings-amharic/
-│   │   ├── train-roberta-amharic-embed-base.ipynb
-│   │   └── train-roberta-amharic-embed-medium.ipynb
-│   └── splade-amharic/
-│       ├── train-splade-roberta-amharic-base.ipynb
-│       └── train-splade-roberta-amharic-medium.ipynb
-├── scripts/
-│   ├── README.md                              # HPC setup instructions
-│   ├── run_finetune_embeddinggemma.sbatch
-│   ├── run_finetune_harrier.sbatch
-│   ├── run_evaluate_gemma.sbatch
-│   └── run_evaluate_harrier.sbatch
-├── evaluate_ir.py                             # CLI evaluation script
-├── finetune_embeddinggemma_amharic.py         # CLI fine-tuning script (EmbeddingGemma)
-├── finetune_harrier_amharic.py                # CLI fine-tuning script (Harrier)
-├── LICENSE
-├── CITATION.cff
-├── README.md
-├── amharicir-environment.yml
-└── requirements.txt
-```
 
 ## License
 
